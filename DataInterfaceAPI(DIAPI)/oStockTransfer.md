@@ -1,8 +1,9 @@
-# Documents Object 
-Documents(oOrders) - ORDR 
+# StockTransfer Object 
 
 ### Description
-Documents is a business object that represents the header data of documents in the Marketing Documents and Receipts module and the Inventory and Production module of SAP Business One application.
+StockTransfer is a business object that represents items to transfer from one warehouse to another. This object is part of the Inventory and Production module. 
+
+Source tables: OWTR (ODRF for drafts)
 
 ### Code
 ```
@@ -17,38 +18,34 @@ public class MySapBusinessOne
     }
 
 
-    public SapResponseModel AddOrders(EntityDocument document)
+    public SapResponseModel AddStockTransfer(EntityStockTransfer document)
     {
-        SAPbobsCOM.Documents oDocto;
-        oDocto = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oOrders);
+        SAPbobsCOM.StockTransfer oDocto;
+        oDocto = (SAPbobsCOM.StockTransfer)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oStockTransfer);
 
         oDocto.DocDate = DateTime.Now.Date;
-        oDocto.DocDueDate = DateTime.Now.Date;
+        oDocto.TaxDate = document.taxDate;
         oDocto.CardCode = document.cardCode;
         oDocto.Comments = document.comments;
-
-        oDocto.DocType = SAPbobsCOM.BoDocumentTypes.dDocument_Items;
-        oDocto.DocCurrency = document.docCurrency;
-        oDocto.Comments = document.comments;
-        oDocto.NumAtCard = document.numAtCard;
-        oDocto.SalesPersonCode = document.slpCode;
-        oDocto.ShipToCode = document.shipToCode;
+        oDocto.FromWarehouse = document.fromWarehouseCode;
+        oDocto.ToWarehouse = document.warehouseCode;
+        oDocto.PriceList = oDocto.priceList;
+        oDocto.JournalMemo = oDocto.journalMemo;
 
         for (int i = 0; i < document.lines.Count; i++)
         {
             oDocto.Lines.SetCurrentLine(i);
             oDocto.Lines.ItemCode = lines[i].itemCode;
             oDocto.Lines.Quantity = lines[i].quantity;
-
             oDocto.Lines.Price = lines[i].price;
-            oDocto.Lines.UnitPrice = lines[i].unitPrice;
+            oDocto.Lines.UnitPrice = lines[i].price;
             oDocto.Lines.DiscountPercent = lines[i].discountPercent;
-
-            oDocto.Lines.TaxCode = lines[i].taxCode;
             oDocto.Lines.Currency = lines[i].currency;
             oDocto.Lines.WarehouseCode = lines[i].warehouseCode;
+            oDocto.Lines.FromWarehouseCode = lines[i].fromWarehouseCode;
+            oDocto.Lines.Add();
         }
-
+        
         int lRetCode = oDocto.Add();
         if (lRetCode != 0)
         {

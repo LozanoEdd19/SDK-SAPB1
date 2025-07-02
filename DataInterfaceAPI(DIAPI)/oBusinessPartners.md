@@ -28,7 +28,7 @@ public class MySapBusinessOne
     }
 
 
-    public bool AddBusinessPartner(EntitieBusinessPartner businessPartner)
+    public bool AddBusinessPartner(EntityBusinessPartner businessPartner)
     {
         SAPbobsCOM.BusinessPartners oDocto;
         oDocto = (SAPbobsCOM.BusinessPartners)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oBusinessPartners);
