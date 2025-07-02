@@ -1,5 +1,7 @@
 # Connecting to SAP Business One Database
 
+### Code
+
 ```
 public class MySapBusinessOne
 {

@@ -1,4 +1,6 @@
 # BusinessPartners 
+
+### Description
 BusinessPartners is a business object that represents the Business Partners Master Data in the Business Partners module.
 
 This object enables you to:
@@ -11,8 +13,10 @@ This object enables you to:
 
 Source table: OCRD.
 
-```
 
+### Code
+
+```
 public class MySapBusinessOne
 {
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
@@ -24,7 +28,7 @@ public class MySapBusinessOne
     }
 
 
-    public SapResponseModel AddBusinessPartner(EntitieBusinessPartner businessPartner)
+    public bool AddBusinessPartner(EntitieBusinessPartner businessPartner)
     {
         SAPbobsCOM.BusinessPartners oDocto;
         oDocto = (SAPbobsCOM.BusinessPartners)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oBusinessPartners);
